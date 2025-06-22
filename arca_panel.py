@@ -3,6 +3,7 @@ from PyQt6.QtCore import QSize, Qt
 import sys
 from screeninfo import get_monitors
 from pynput import keyboard
+from panel_widgets import MATButton
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QWidget):
@@ -11,21 +12,16 @@ class MainWindow(QWidget):
         self.main_monitor = monitors[0]
 
         # Initializes the variables
-        self.button = QPushButton("test")
         self.layout = QHBoxLayout()
+        self.mat_button = MATButton(self)
 
         # Sets the proper panel width
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setGeometry(0, 0, self.main_monitor.width, int(self.main_monitor.height * 0.05))  # Full width, thin
 
-        # Sets up test button
-        self.button.setFixedWidth(int(self.width() * 0.10))
-        self.button.setFixedHeight(int(self.height() * 0.5))
-        # self.button.setStyleSheet("border: 1px solid #ffffff; background-color: #333333;")
-
         # Sets up the QHBoxLayout()
         self.layout.setSpacing(5)
-        self.layout.addWidget(self.button)
+        self.layout.addWidget(self.mat_button)
         self.layout.addStretch()
         self.setLayout(self.layout)
 
