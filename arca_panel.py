@@ -1,23 +1,33 @@
 from PyQt5.QtWidgets import QToolBar
-from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout
 from PyQt6.QtCore import QSize, Qt
 import sys
 from screeninfo import get_monitors
 from pynput import keyboard
 
 # Subclass QMainWindow to customize your application's main window
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
     def __init__(self, monitors):
         super().__init__()
         self.main_monitor = monitors[0]
-        self.button = QPushButton("Press Me!")
-        self.toolbar = QToolBar("Test")
 
+        # Initializes the variables
+        self.button = QPushButton("test")
+        self.layout = QHBoxLayout()
+
+        # Sets the proper panel width
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setGeometry(0, 0, self.main_monitor.width, 30)  # Full width, thin
-        # Set the central widget of the Window.
-        # self.setCentralWidget(self.button)
-        self.addToolBar(self.toolbar)
+
+        # Sets up test button
+        self.button.setFixedWidth(int(self.width() * 0.10))
+        # self.button.setStyleSheet("border: 1px solid #ffffff; background-color: #333333;")
+
+        # Sets up the QHBoxLayout()
+        self.layout.setSpacing(155555)
+        self.layout.addWidget(self.button)
+        self.layout.addStretch()
+        self.setLayout(self.layout)
 
     def key_handler(self, key):
         try:
