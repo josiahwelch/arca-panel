@@ -10,4 +10,4 @@ class MATButton(QPushButton):
 
         # Sets the dimensions of the button
         self.setFixedWidth(int(widget.width() * 0.10))
-        self.setFixedHeight(int(widget.height() * 0.5))
+        self.setFixedHeight(int(widget.height() * 0.05))
