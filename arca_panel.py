@@ -1,4 +1,3 @@
-from PyQt5.QtWidgets import QToolBar
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout
 from PyQt6.QtCore import QSize, Qt
 import sys
@@ -21,10 +20,11 @@ class MainWindow(QWidget):
 
         # Sets up test button
         self.button.setFixedWidth(int(self.width() * 0.10))
+        self.button.setFixedHeight(10)
         # self.button.setStyleSheet("border: 1px solid #ffffff; background-color: #333333;")
 
         # Sets up the QHBoxLayout()
-        self.layout.setSpacing(155555)
+        self.layout.setSpacing(15)
         self.layout.addWidget(self.button)
         self.layout.addStretch()
         self.setLayout(self.layout)
