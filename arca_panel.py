@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QToolBar
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow
 from PyQt6.QtCore import QSize, Qt
 import sys
@@ -10,11 +11,13 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.main_monitor = monitors[0]
         self.button = QPushButton("Press Me!")
+        self.toolbar = QToolBar("Test")
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setGeometry(0, 0, self.main_monitor.width, 30)  # Full width, thin
         # Set the central widget of the Window.
-        self.setCentralWidget(self.button)
+        # self.setCentralWidget(self.button)
+        self.addToolBar(self.toolbar)
 
     def key_handler(self, key):
         try:
