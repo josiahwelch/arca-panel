@@ -23,6 +23,10 @@ class MainWindow(QWidget):
         self.mat_button.setFixedWidth(int(self.width() * 0.10))
         self.mat_button.setFixedHeight(int(self.height() * 0.5))
 
+        # Sets the dimensions of the M.A.T. menu
+        self.mat_button.mat_menu.setFixedWidth(int(self.width() * 0.25))
+        self.mat_button.mat_menu.setFixedHeight(int(self.main_monitor.height * 0.5))
+
         # Sets up the QHBoxLayout()
         self.layout.setSpacing(5)
         self.layout.addWidget(self.mat_button)
@@ -35,6 +39,8 @@ class MainWindow(QWidget):
         except:
             k = key.name  # other keys
         print(k)
+        if k == 'a':
+            self.mat_button.super_pressed()
 
 def __main__():
     app = QApplication(sys.argv)
