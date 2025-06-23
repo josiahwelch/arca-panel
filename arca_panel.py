@@ -13,11 +13,15 @@ class MainWindow(QWidget):
 
         # Initializes the variables
         self.layout = QHBoxLayout()
-        self.mat_button = MATButton(self)
+        self.mat_button = MATButton()
 
         # Sets the proper panel width
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setGeometry(0, 0, self.main_monitor.width, int(self.main_monitor.height * 0.05))  # Full width, thin
+
+        # Sets the dimensions of the M.A.T. button
+        self.mat_button.setFixedWidth(int(self.width() * 0.10))
+        self.mat_button.setFixedHeight(int(self.height() * 0.5))
 
         # Sets up the QHBoxLayout()
         self.layout.setSpacing(5)
