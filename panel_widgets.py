@@ -3,8 +3,12 @@ from PyQt6.QtCore import QSize, Qt
 import sys
 from screeninfo import get_monitors
 from pynput import keyboard
+from mat_menu import MatMenu
 
 class MATButton(QPushButton):
     def __init__(self):
         super().__init__("M.A.T.")
+
+        # Initializes variables
+        self.mat_menu = MatMenu()
 
