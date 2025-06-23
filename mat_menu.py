@@ -5,7 +5,7 @@ from screeninfo import get_monitors
 from pynput import keyboard
 from desktop_parser import DesktopFile
 
-class MatMenu(QVBoxLayout):
+class MATMenu(QVBoxLayout):
     def __init__(self):
         super().__init__()
 
