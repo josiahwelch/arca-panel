@@ -12,8 +12,8 @@ class MatMenu(QVBoxLayout):
         # Initializes variables
         self.entries = set()
 
+        # Populates the M.A.T. menu
         self.update()
-        print(len(self.entries))
 
     def update(self):
         applications_dir = "/usr/share/applications"
