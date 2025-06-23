@@ -24,9 +24,7 @@ class MainWindow(QWidget):
         self.mat_button.setFixedHeight(int(self.height() * 0.5))
 
         # Sets the dimensions of the M.A.T. menu
-        self.mat_button.mat_menu.setFixedWidth(int(self.width() * 0.25))
-        self.mat_button.mat_menu.setFixedHeight(int(self.main_monitor.height * 0.5))
-
+        self.mat_button.mat_menu.setGeometry(0, self.height(), int(self.main_monitor.width * 0.25), int(self.main_monitor.height * 0.5))  # Full width, thin
         # Sets up the QHBoxLayout()
         self.layout.setSpacing(5)
         self.layout.addWidget(self.mat_button)
