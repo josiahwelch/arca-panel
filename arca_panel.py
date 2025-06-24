@@ -39,6 +39,8 @@ class MainWindow(QWidget):
         print(k)
         if k == 'a':
             self.mat_button.super_pressed()
+        elif k == 'b':
+            print(self.mat_button.mat_menu.currentItem())
 
 def __main__():
     app = QApplication(sys.argv)
