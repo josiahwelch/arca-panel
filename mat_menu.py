@@ -19,17 +19,19 @@ class MATMenu(QWidget):
 
         # Populates the M.A.T. menu
         self.update()
+        self.setLayout(self.layout)
 
     def _update_from_dir(self):
         applications_dir = '/usr/share/applications'
         for file in os.scandir(applications_dir):
             if file.is_file():
                 self.entries.add(DesktopFile(file.path))
-
+                print(file.path)
     def _update_menu(self):
         misc_helper.remove_widgets(self.layout)
         for entry in self.entries:
-            self.layout.addWidget(QLabel(entry.data['Desktop Entry']['Name']))
+            self.layout.addWidget(QPushButton(entry.data['Desktop Entry']['Name']))
+        self.layout.activate()
 
     def update(self):
         self._update_from_dir()
