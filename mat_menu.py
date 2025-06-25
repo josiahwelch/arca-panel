@@ -1,3 +1,5 @@
+import copy
+
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout, QVBoxLayout, QLabel, \
     QBoxLayout, QScrollArea, QScrollBar, QListWidget, QListWidgetItem
 from PyQt6.QtCore import QSize, Qt
@@ -11,8 +13,8 @@ class MATMenu(QListWidget):
         super().__init__()
 
         # Initializes variables
-        self.entries = set()
-        self.scroll = QScrollArea()
+        self.entries = []
+        self.entries_exec = {}
 
         # Sets proper flags for the window
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -22,24 +24,50 @@ class MATMenu(QListWidget):
         scroll_bar.setStyleSheet("background : gray;")
         self.setVerticalScrollBar(scroll_bar)
 
+        # Configures application clicking
+        self.itemClicked.connect(self.item_clicked)
+
         # Populates the M.A.T. menu
         self.update()
 
     def _update_from_dir(self):
         applications_dir = '/usr/share/applications'
+        self.entries = []
         for file in os.scandir(applications_dir):
             if file.is_file():
-                self.entries.add(DesktopFile(file.path))
-                print(file.path)
+                desktop = DesktopFile(file.path)
+                self.entries.append(copy.deepcopy(desktop.data))
+                print(self.entries[-1])
+                try:
+                    self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name'])] = self.entries[-1]['Desktop Entry']['Exec']
+                except TypeError:
+                    self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name'])] = self.entries[-1]['Desktop Entry']['Exec']
+                except KeyError as e:
+                    # print(f"{e}: {next(iter(self.entries)).data['Desktop Entry']['Name']}")
+                    try:
+                        self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name']['C'])] = self.entries[-1]['Desktop Entry']['Exec']
+                    except KeyError as e:
+                        self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name'])] = ""
+        for entry in self.entries:
+            print(entry)
 
     def _update_menu(self):
         self.clear()
         for entry in self.entries:
-            self.addItem(QListWidgetItem(entry.data['Desktop Entry']['Name']))
+            print(entry['Desktop Entry']['Name'])
+            try:
+                self.addItem(QListWidgetItem(entry['Desktop Entry']['Name']))
+            except TypeError:
+                self.addItem(QListWidgetItem(entry['Desktop Entry']['Name']['C']))
 
     def update(self):
         self._update_from_dir()
         self._update_menu()
+
+    def item_clicked(self, item):
+        print(self.entries_exec[item]['Desktop Entry']['Name'])
+        self.clearSelection()
+        self.hide()
 
 
 
