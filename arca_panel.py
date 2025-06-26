@@ -1,3 +1,6 @@
+import datetime
+
+import pytz
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout
 from PyQt6.QtCore import QSize, Qt
 import sys
@@ -6,7 +9,7 @@ from Xlib import display, Xatom, X
 from pygments.lexers.scripting import MiniScriptLexer
 from screeninfo import get_monitors
 from pynput import keyboard
-from panel_widgets import MATButton, LogoutButton
+from panel_widgets import MATButton, LogoutButton, TimeWidget
 
 
 # Subclass QMainWindow to customize your application's main window
@@ -19,6 +22,7 @@ class ArcaPanel(QWidget):
         self.layout = QHBoxLayout()
         self.mat_button = MATButton()
         self.logout_button = LogoutButton()
+        self.time_widget = TimeWidget()
 
         # Sets the proper panel width
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -32,6 +36,10 @@ class ArcaPanel(QWidget):
         self.logout_button.setFixedWidth(int(self.width() * 0.10))
         self.logout_button.setFixedHeight(int(self.height() * 0.5))
 
+        # Sets the dimensions of the Time widget
+        self.time_widget.setFixedWidth(int(self.width() * 0.03))
+        self.time_widget.setFixedHeight(int(self.height() * 0.5))
+
         # Sets the dimensions of the M.A.T. menu
         self.mat_button.mat_menu.setGeometry(0, self.height(), int(self.main_monitor.width * 0.25), int(self.main_monitor.height * 0.5))  # Full width, thin
 
@@ -40,7 +48,11 @@ class ArcaPanel(QWidget):
         self.layout.addWidget(self.mat_button)
         self.layout.addWidget(self.logout_button)
         self.layout.addStretch()
+        self.layout.addWidget(self.time_widget)
         self.setLayout(self.layout)
+
+        # Starts time daemon
+        self.time_widget.start()
 
         # Set strut to reserve panel space
         self.set_window_strut()
@@ -78,6 +90,7 @@ class ArcaPanel(QWidget):
     # Run this command AFTER app.exec()
     def stop(self):
         self.listener.join()  # remove if main thread is polling self.keys
+        self.time_widget.stop()
 
 def __main__():
     app = QApplication(sys.argv)

@@ -1,4 +1,9 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout
+import threading
+import time
+from datetime import datetime
+
+import pytz
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout, QLabel
 from PyQt6.QtCore import QSize, Qt
 import sys
 from screeninfo import get_monitors
@@ -33,3 +38,38 @@ class LogoutButton(QPushButton):
 
     def pressed(self):
         print("UNBOUND YET")
+
+class TimeWidget(QLabel):
+    def __init__(self, region=None, city=None):
+        super().__init__("TIME INIT")
+
+        # Initialize variables
+        self.thread = threading.Thread(target=self._time_get)
+        self.current_time = None
+        if region is None:
+            self.region = "America"
+            self.city = "Chicago"
+        else:
+            self.region = region
+            self.city = city
+
+    def start(self):
+        self.thread.start()
+
+    def stop(self):
+        self.thread.join()
+
+    def set_timezone(self, region, city):
+        self.region = region
+        self.city = city
+
+    def get_timezone(self):
+        return f"{self.region}/{self.city}"
+
+    def _time_get(self):
+        while True:
+            tz = pytz.timezone(self.get_timezone())
+            self.current_time = datetime.now(tz)
+            self.setText(self.current_time.strftime("%H:%M"))
+            print(f"Current time in {self.city}:", self.current_time.strftime("%H:%M"))
+            time.sleep(1)
