@@ -3,12 +3,13 @@ from PyQt6.QtCore import QSize, Qt
 import sys
 
 from Xlib import display, Xatom, X
+from pygments.lexers.scripting import MiniScriptLexer
 from screeninfo import get_monitors
 from pynput import keyboard
 from panel_widgets import MATButton
 
 # Subclass QMainWindow to customize your application's main window
-class MainWindow(QWidget):
+class ArcaPanel(QWidget):
     def __init__(self, monitors):
         super().__init__()
         self.main_monitor = monitors[0]
@@ -61,15 +62,27 @@ class MainWindow(QWidget):
         dpy.flush()
         dpy.close()
 
+    # Run this command BEFORE app.exec()
+    def start(self):
+        self.show()
+        self.listener = keyboard.Listener(on_press=self.key_handler)
+        self.listener.start()  # start to listen on a separate thread
+
+    # Run this command AFTER app.exec()
+    def stop(self):
+        self.listener.join()  # remove if main thread is polling self.keys
+
 def __main__():
     app = QApplication(sys.argv)
     monitors = get_monitors()
-    window = MainWindow(monitors)
-    window.show()
-    listener = keyboard.Listener(on_press=window.key_handler)
-    listener.start()  # start to listen on a separate thread
+    window = ArcaPanel(monitors)
+    # window.show()
+    # listener = keyboard.Listener(on_press=window.key_handler)
+    # listener.start()  # start to listen on a separate thread
+    window.start()
     app.exec()
-    listener.join()  # remove if main thread is polling self.keys
+    # listener.join()  # remove if main thread is polling self.keys
+    window.stop()
 
 if __name__ == "__main__":
     __main__()
