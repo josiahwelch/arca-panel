@@ -14,9 +14,9 @@ class MATButton(QPushButton):
         self.is_mat_shown = False
 
         # Sets up button listener
-        self.clicked.connect(self.mat_pressed)
+        self.clicked.connect(self.pressed)
 
-    def mat_pressed(self):
+    def pressed(self):
         if self.is_mat_shown:
             self.mat_menu.hide()
             self.is_mat_shown = False
@@ -24,5 +24,12 @@ class MATButton(QPushButton):
             self.mat_menu.show()
             self.is_mat_shown = True
 
+class LogoutButton(QPushButton):
+    def __init__(self, func=None):
+        super().__init__("Logout")
 
+        # Sets up button listener
+        self.clicked.connect(self.pressed)
 
+    def pressed(self):
+        print("UNBOUND YET")

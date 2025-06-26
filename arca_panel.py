@@ -6,7 +6,8 @@ from Xlib import display, Xatom, X
 from pygments.lexers.scripting import MiniScriptLexer
 from screeninfo import get_monitors
 from pynput import keyboard
-from panel_widgets import MATButton
+from panel_widgets import MATButton, LogoutButton
+
 
 # Subclass QMainWindow to customize your application's main window
 class ArcaPanel(QWidget):
@@ -17,6 +18,7 @@ class ArcaPanel(QWidget):
         # Initializes the variables
         self.layout = QHBoxLayout()
         self.mat_button = MATButton()
+        self.logout_button = LogoutButton()
 
         # Sets the proper panel width
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -26,12 +28,17 @@ class ArcaPanel(QWidget):
         self.mat_button.setFixedWidth(int(self.width() * 0.10))
         self.mat_button.setFixedHeight(int(self.height() * 0.5))
 
+        # Sets the dimensions of the Logout button
+        self.logout_button.setFixedWidth(int(self.width() * 0.10))
+        self.logout_button.setFixedHeight(int(self.height() * 0.5))
+
         # Sets the dimensions of the M.A.T. menu
         self.mat_button.mat_menu.setGeometry(0, self.height(), int(self.main_monitor.width * 0.25), int(self.main_monitor.height * 0.5))  # Full width, thin
 
         # Sets up the QHBoxLayout()
         self.layout.setSpacing(5)
         self.layout.addWidget(self.mat_button)
+        self.layout.addWidget(self.logout_button)
         self.layout.addStretch()
         self.setLayout(self.layout)
 
@@ -45,7 +52,7 @@ class ArcaPanel(QWidget):
             k = key.name  # other keys
         print(k)
         if k == 'alt':
-            self.mat_button.mat_pressed()
+            self.mat_button.pressed()
         elif k == 'b':
             print(self.mat_button.mat_menu.currentItem())
 
