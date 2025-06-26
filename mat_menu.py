@@ -1,4 +1,6 @@
 import copy
+import subprocess
+import threading
 
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout, QVBoxLayout, QLabel, \
     QBoxLayout, QScrollArea, QScrollBar, QListWidget, QListWidgetItem
@@ -65,9 +67,11 @@ class MATMenu(QListWidget):
         self._update_menu()
 
     def item_clicked(self, item):
-        print(self.entries_exec[item]['Desktop Entry']['Name'])
+        print(item.text())
+        print(self.entries_exec[item.text()])
+        t = threading.Thread(target=misc_helper.run_command(self.entries_exec[item.text()]))
+        t.start()
         self.clearSelection()
         self.hide()
-
 
 
