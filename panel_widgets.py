@@ -13,7 +13,10 @@ class MATButton(QPushButton):
         self.mat_menu = MATMenu()
         self.is_mat_shown = False
 
-    def super_pressed(self):
+        # Sets up button listener
+        self.clicked.connect(self.mat_pressed)
+
+    def mat_pressed(self):
         if self.is_mat_shown:
             self.mat_menu.hide()
             self.is_mat_shown = False

@@ -25,6 +25,7 @@ class MainWindow(QWidget):
 
         # Sets the dimensions of the M.A.T. menu
         self.mat_button.mat_menu.setGeometry(0, self.height(), int(self.main_monitor.width * 0.25), int(self.main_monitor.height * 0.5))  # Full width, thin
+
         # Sets up the QHBoxLayout()
         self.layout.setSpacing(5)
         self.layout.addWidget(self.mat_button)
@@ -38,13 +39,12 @@ class MainWindow(QWidget):
             k = key.name  # other keys
         print(k)
         if k == 'alt':
-            self.mat_button.super_pressed()
+            self.mat_button.mat_pressed()
         elif k == 'b':
             print(self.mat_button.mat_menu.currentItem())
 
 def __main__():
     app = QApplication(sys.argv)
-
     monitors = get_monitors()
     window = MainWindow(monitors)
     window.show()
