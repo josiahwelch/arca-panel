@@ -5,16 +5,17 @@ def remove_widgets(layout):
     for i in reversed(range(layout.count())):
         layout.itemAt(i).widget().setParent(None)
 
-def parse_command_string(command):
-    """
-    :parse_command_string("print "Hello World!"):
-    :["print", "\"Hello World!\""]:
-    """
+def parse_command_string(command, percent_u=None):
     parsed_array = []
     pre_parsed_array = command.split(' ')
     is_string = False
     buffer_string = ""
+    if percent_u is not None:
+        percent_u = False
+
     for segment in pre_parsed_array:
+        if segment == "%u" or segment == "%U":
+            continue
         if is_string:
             buffer_string += segment
         else:
