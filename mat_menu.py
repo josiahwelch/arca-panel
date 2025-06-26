@@ -69,7 +69,8 @@ class MATMenu(QListWidget):
     def item_clicked(self, item):
         print(item.text())
         print(self.entries_exec[item.text()])
-        t = threading.Thread(target=misc_helper.run_command, args=str(self.entries_exec[item.text()]))
+        t = threading.Thread(target=misc_helper.run_command, args=(self.entries_exec[item.text()], ))
+        # misc_helper.run_command(self.entries_exec[item.text()])
         t.start()
         self.clearSelection()
         self.hide()
