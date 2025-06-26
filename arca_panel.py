@@ -37,7 +37,7 @@ class MainWindow(QWidget):
         except:
             k = key.name  # other keys
         print(k)
-        if k == 'a':
+        if k == 'alt':
             self.mat_button.super_pressed()
         elif k == 'b':
             print(self.mat_button.mat_menu.currentItem())
