@@ -1,6 +1,8 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout
 from PyQt6.QtCore import QSize, Qt
 import sys
+
+from Xlib import display, Xatom, X
 from screeninfo import get_monitors
 from pynput import keyboard
 from panel_widgets import MATButton
@@ -32,6 +34,9 @@ class MainWindow(QWidget):
         self.layout.addStretch()
         self.setLayout(self.layout)
 
+        # Set strut to reserve panel space
+        self.set_window_strut()
+
     def key_handler(self, key):
         try:
             k = key.char  # single-char keys
@@ -42,6 +47,19 @@ class MainWindow(QWidget):
             self.mat_button.mat_pressed()
         elif k == 'b':
             print(self.mat_button.mat_menu.currentItem())
+
+    def set_window_strut(self):
+        dpy = display.Display()
+        xid = self.winId().__int__()  # Get X11 window ID
+        window = dpy.create_resource_object('window', xid)
+        # _NET_WM_STRUT_PARTIAL: [left, right, top, bottom, left_start_y, left_end_y, right_start_y, right_end_y, top_start_x, top_end_x, bottom_start_x, bottom_end_x]
+        strut = [0, 0, self.height(), 0, 0, 0, 0, 0, 0, self.width(), 0, 0]  # Reserve 30px at top, across 0-1920px
+        window.change_property(
+            dpy.intern_atom('_NET_WM_STRUT_PARTIAL'),
+            Xatom.CARDINAL, 32, strut, X.PropModeReplace
+        )
+        dpy.flush()
+        dpy.close()
 
 def __main__():
     app = QApplication(sys.argv)
