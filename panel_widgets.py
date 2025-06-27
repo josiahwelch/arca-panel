@@ -11,6 +11,7 @@ from screeninfo import get_monitors
 from pynput import keyboard
 from mat_menu import MATMenu
 
+
 class MATButton(QPushButton):
     def __init__(self):
         super().__init__("M.A.T.")
@@ -30,15 +31,20 @@ class MATButton(QPushButton):
             self.mat_menu.show()
             self.is_mat_shown = True
 
-class LogoutButton(QPushButton):
-    def __init__(self, func=None):
-        super().__init__("Logout")
+
+class MiscButton(QPushButton):
+    def __init__(self, name):
+        super().__init__(name)
 
         # Sets up button listener
         self.clicked.connect(self.pressed)
 
-    def pressed(self):
-        print("UNBOUND YET")
+    def pressed(self, func=None, *args, **kwargs):
+        if func is None:
+            print("UNBOUND YET")
+        else:
+            func(*args, **kwargs)
+
 
 class TimeWidget(QLabel):
     def __init__(self, region=None, city=None, is_12_hour=None):

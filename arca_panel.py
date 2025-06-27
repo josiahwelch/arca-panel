@@ -10,8 +10,7 @@ from Xlib import display, Xatom, X
 from pygments.lexers.scripting import MiniScriptLexer
 from screeninfo import get_monitors
 from pynput import keyboard
-from panel_widgets import MATButton, LogoutButton, TimeWidget
-
+from panel_widgets import MATButton, MiscButton, TimeWidget
 
 # Subclass QMainWindow to customize your application's main window
 class ArcaPanel(QWidget):
@@ -22,7 +21,7 @@ class ArcaPanel(QWidget):
         # Initializes the variables
         self.layout = QHBoxLayout()
         self.mat_button = MATButton()
-        self.logout_button = LogoutButton()
+        self.misc_button = MiscButton("Logout")
         self.time_widget = TimeWidget()
 
         # Sets the proper panel width
@@ -33,9 +32,9 @@ class ArcaPanel(QWidget):
         self.mat_button.setFixedWidth(int(self.width() * 0.10))
         self.mat_button.setFixedHeight(int(self.height() * 0.5))
 
-        # Sets the dimensions of the Logout button
-        self.logout_button.setFixedWidth(int(self.width() * 0.10))
-        self.logout_button.setFixedHeight(int(self.height() * 0.5))
+        # Sets the dimensions of the Misc button
+        self.misc_button.setFixedWidth(int(self.width() * 0.10))
+        self.misc_button.setFixedHeight(int(self.height() * 0.5))
 
         # Sets the dimensions of the Time widget
         self.time_widget.setFixedWidth(int(self.width() * 0.05))
@@ -47,7 +46,7 @@ class ArcaPanel(QWidget):
         # Sets up the QHBoxLayout()
         self.layout.setSpacing(5)
         self.layout.addWidget(self.mat_button)
-        self.layout.addWidget(self.logout_button)
+        self.layout.addWidget(self.misc_button)
         self.layout.addStretch()
         self.layout.addWidget(self.time_widget)
         self.setLayout(self.layout)
