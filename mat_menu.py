@@ -67,8 +67,8 @@ class MATMenu(QListWidget):
         self._update_menu()
 
     def item_clicked(self, item):
-        print(item.text())
-        print(self.entries_exec[item.text()])
+        print(f"item: \"{item.text()}\"")
+        print(f"exec: \"self.entries_exec[item.text()]\"")
         t = threading.Thread(target=misc_helper.run_command, args=(self.entries_exec[item.text()], ))
         # misc_helper.run_command(self.entries_exec[item.text()])
         t.start()

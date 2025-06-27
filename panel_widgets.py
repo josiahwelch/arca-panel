@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 
 import pytz
+from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout, QLabel
 from PyQt6.QtCore import QSize, Qt
 import sys
@@ -46,12 +47,17 @@ class TimeWidget(QLabel):
         # Initialize variables
         self.thread = threading.Thread(target=self._time_get)
         self.current_time = None
+        self.font = QFont()
         if region is None:
             self.region = "America"
             self.city = "Chicago"
         else:
             self.region = region
             self.city = city
+
+        # Sets font size
+        self.font.setPointSize(12)
+        self.setFont(self.font)
 
     def start(self):
         self.thread.start()
@@ -71,5 +77,5 @@ class TimeWidget(QLabel):
             tz = pytz.timezone(self.get_timezone())
             self.current_time = datetime.now(tz)
             self.setText(self.current_time.strftime("%H:%M"))
-            print(f"Current time in {self.city}:", self.current_time.strftime("%H:%M"))
+            # print(f"Current time in {self.city}:", self.current_time.strftime("%H:%M"))
             time.sleep(1)
