@@ -38,9 +38,8 @@ class ArcaPanel(QWidget):
         self.logout_button.setFixedHeight(int(self.height() * 0.5))
 
         # Sets the dimensions of the Time widget
-        self.time_widget.setFixedWidth(int(self.width() * 0.03))
+        self.time_widget.setFixedWidth(int(self.width() * 0.05))
         self.time_widget.setFixedHeight(int(self.height() * 0.5))
-        print(Qt.WindowType.WindowStaysOnBottomHint)
 
         # Sets the dimensions of the M.A.T. menu
         self.mat_button.mat_menu.setGeometry(0, self.height(), int(self.main_monitor.width * 0.25), int(self.main_monitor.height * 0.5))  # Full width, thin

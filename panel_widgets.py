@@ -41,7 +41,7 @@ class LogoutButton(QPushButton):
         print("UNBOUND YET")
 
 class TimeWidget(QLabel):
-    def __init__(self, region=None, city=None):
+    def __init__(self, region=None, city=None, is_12_hour=None):
         super().__init__("TIME INIT")
 
         # Initialize variables
@@ -54,6 +54,10 @@ class TimeWidget(QLabel):
         else:
             self.region = region
             self.city = city
+        if is_12_hour is None:
+            self.is_12_hour = True
+        else:
+            self.is_12_hour = False
 
         # Sets font size
         self.font.setPointSize(12)
@@ -76,6 +80,8 @@ class TimeWidget(QLabel):
         while True:
             tz = pytz.timezone(self.get_timezone())
             self.current_time = datetime.now(tz)
-            self.setText(self.current_time.strftime("%H:%M"))
-            # print(f"Current time in {self.city}:", self.current_time.strftime("%H:%M"))
+            if self.is_12_hour:
+                self.setText(self.current_time.strftime("%-I:%M %P"))
+            else:
+                self.setText(self.current_time.strftime("%H:%M"))
             time.sleep(1)
