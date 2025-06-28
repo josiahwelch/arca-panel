@@ -31,19 +31,19 @@ class MATButton(QPushButton):
             self.mat_menu.show()
             self.is_mat_shown = True
 
-
 class MiscButton(QPushButton):
-    def __init__(self, name):
+    def __init__(self, name, func=None):
         super().__init__(name)
+        self.func = func
 
         # Sets up button listener
         self.clicked.connect(self.pressed)
 
-    def pressed(self, func=None, *args, **kwargs):
-        if func is None:
+    def pressed(self):
+        if self.func is None:
             print("UNBOUND YET")
         else:
-            func(*args, **kwargs)
+            self.func()
 
 
 class TimeWidget(QLabel):
