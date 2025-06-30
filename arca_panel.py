@@ -81,6 +81,12 @@ class ArcaPanel(QWidget):
         dpy.flush()
         dpy.close()
 
+    def bind_func_to_misc_button(self, func):
+        self.misc_button.set_func(func)
+
+    def set_misc_button_text(self, text):
+        self.misc_button.set_name(text)
+
     # Run this command BEFORE app.exec()
     def start(self):
         self.show()
