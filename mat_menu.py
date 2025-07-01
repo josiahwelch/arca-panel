@@ -39,24 +39,19 @@ class MATMenu(QListWidget):
             if file.is_file():
                 desktop = DesktopFile(file.path)
                 self.entries.append(copy.deepcopy(desktop.data))
-                print(self.entries[-1])
                 try:
                     self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name'])] = self.entries[-1]['Desktop Entry']['Exec']
                 except TypeError:
                     self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name'])] = self.entries[-1]['Desktop Entry']['Exec']
                 except KeyError as e:
-                    # print(f"{e}: {next(iter(self.entries)).data['Desktop Entry']['Name']}")
                     try:
                         self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name']['C'])] = self.entries[-1]['Desktop Entry']['Exec']
                     except KeyError as e:
                         self.entries_exec[str(self.entries[-1]['Desktop Entry']['Name'])] = ""
-        for entry in self.entries:
-            print(entry)
 
     def _update_menu(self):
         self.clear()
         for entry in self.entries:
-            print(entry['Desktop Entry']['Name'])
             try:
                 self.addItem(QListWidgetItem(entry['Desktop Entry']['Name']))
             except TypeError:
@@ -67,8 +62,6 @@ class MATMenu(QListWidget):
         self._update_menu()
 
     def item_clicked(self, item):
-        print(f"item: \"{item.text()}\"")
-        print(f"exec: \"{self.entries_exec[item.text()]}\"")
         t = threading.Thread(target=misc_helper.run_command, args=(self.entries_exec[item.text()], ))
         # misc_helper.run_command(self.entries_exec[item.text()])
         t.start()
