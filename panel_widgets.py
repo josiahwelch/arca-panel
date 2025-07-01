@@ -34,15 +34,10 @@ class MATButton(QPushButton):
 class MiscButton(QPushButton):
     def __init__(self, name, func=None):
         super().__init__(name)
-        self.name = name
         self.func = func
 
         # Sets up button listener
         self.clicked.connect(self.pressed)
-
-    def set_name(self, name):
-        self.setText(name)
-        self.name = name
 
     def set_func(self, func):
         self.func = func
