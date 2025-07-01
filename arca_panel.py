@@ -16,6 +16,7 @@ from panel_widgets import MATButton, MiscButton, TimeWidget
 class ArcaPanel(QWidget):
     def __init__(self, monitors):
         super().__init__()
+        self._monitors = monitors
         self.main_monitor = monitors[0]
 
         # Initializes the variables
@@ -23,6 +24,11 @@ class ArcaPanel(QWidget):
         self.mat_button = MATButton()
         self.misc_button = MiscButton("Logout")
         self.time_widget = TimeWidget()
+        self.font = QFont()
+        self.params = {}
+
+        # Updates based on parameters in /etc/Arca/panel.conf
+        self.update()
 
         # Sets the proper panel width
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -85,7 +91,37 @@ class ArcaPanel(QWidget):
         self.misc_button.set_func(func)
 
     def set_misc_button_text(self, text):
-        self.misc_button.set_name(text)
+        self.misc_button.setText(text)
+
+    def update(self):
+        self._read_params()
+        self._update_from_params()
+
+    def _update_from_params(self):
+        for param in self.params.keys():
+            value = self.params[param]
+            try:
+                match param:
+                    case 'PRIMARY_DISPLAY':
+                        self.main_monitor = self._monitors[value]
+                    case 'MISC_BUTTON_TEXT':
+                        self.misc_button.setText(value)
+                    case 'MISC_BUTTON_FUNC':
+                        self.misc_button.set_func(value)
+                    case 'FONT_SIZE':
+                        self.font.setPointSize(value)
+            except Exception as e:
+                print(f"error parsing parameters from /etc/Arca/panel.conf: {e}")
+
+
+    def _read_params(self):
+        try:
+            file = open('/etc/Arca/panel.conf', 'r')
+        except FileNotFoundError as e:
+            print("/etc/Arca/panel.conf not found... reverting to defaults")
+            return
+        for line in file:
+            self.params[line.split('=', 1)[0]] = line.split('=', 1)[1]
 
     # Run this command BEFORE app.exec()
     def start(self):
