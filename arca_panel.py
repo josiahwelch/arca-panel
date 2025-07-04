@@ -1,11 +1,8 @@
 import datetime
-
-import pytz
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout
 from PyQt6.QtCore import QSize, Qt
 import sys
-
 from Xlib import display, Xatom, X
 from pygments.lexers.scripting import MiniScriptLexer
 from screeninfo import get_monitors
@@ -13,7 +10,7 @@ from pynput import keyboard
 from panel_widgets import MATButton, MiscButton, TimeWidget
 
 # Subclass QMainWindow to customize your application's main window
-class ArcaPanel(QWidget):
+class ArcaPanel():
     def __init__(self, monitors):
         super().__init__()
         self._monitors = monitors
