@@ -10,7 +10,7 @@ from pynput import keyboard
 from panel_widgets import MATButton, MiscButton, TimeWidget
 
 # Subclass QMainWindow to customize your application's main window
-class ArcaPanel():
+class ArcaPanel(QWidget):
     def __init__(self, monitors):
         super().__init__()
         self._monitors = monitors
