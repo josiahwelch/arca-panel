@@ -16,3 +16,11 @@ string GetStdoutFromCommand(string cmd) {
   }
   return data;
 }
+
+vector<string> str_split(string str, char delim) {
+	stringstream ss(str);
+	string buffer;
+	vector<string> split_string;
+	while(getline(ss, buffer, delim)) {
+		split_string.push_back(buffer);
+	return split_string;
