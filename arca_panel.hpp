@@ -20,14 +20,27 @@ class ArcaPanel : public QWidget {
 		ArcaPanel(vector<string> monitors, QWidget *parent = nullptr) : QWidget(parent) {
 			// Sets/gets monitor information
 			mMonitors = monitors;
-
+			mGetDimensions();
 
 			// Updates based on parameters in /etc/Arca/panel.conf
-			update();
+			mUpdate();
 
 			// Sets the proper panel width
-			setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
-			setGeometry(0, 0, 
+			setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint);
+			setGeometry(0, 0, mWidth, mHeight * 0.05); // Sets the dimensions of the menu to be the width of the screen and 5% of the height
+
+			// Sets the dimensions of the M.A.T. button
+			mMat_button.setFixedWidth(static_cast<int>(mWidth * 0.1));
+			mMat_button.setFixedHeight(static_cast<int>(mHeight * 0.5));
+
+			// Sets the dimensions of the Misc button
+			mMisc_button.setFixedWidth(static_cast<int>(mWidth * 0.1));
+			mMisc_button.setFixedHeight(static_cast<int>(mHeight * 0.5));
+			
+			// Sets the dimensions of the Time widget
+			mTime_widget.setFixedWidth(static_cast<int>(mWidth * 0.1));
+			mTime_widget.setFixedHeight(static_cast<int>(mHeight * 0.5));
+
 		}
 	
 	private:
@@ -45,7 +58,8 @@ class ArcaPanel : public QWidget {
 
 		// Private methods
 		void mGetDimensions() {
-			vector<string> split_string = StrSplit(mMain_monitor, 'x');
-
-	
+			vector<string> split_string = StrSplit(mMain_monitor, 'x'); // Splits "1080x1920" into {"1080", "1920"}
+			mWidth = split_string[0];
+			mHeight = split_string[1];
+		}
 };
