@@ -17,7 +17,7 @@ string GetStdoutFromCommand(string cmd) {
   return data;
 }
 
-vector<string> str_split(string str, char delim) {
+vector<string> strSplit(string str, char delim) {
 	stringstream ss(str);
 	string buffer;
 	vector<string> split_string;

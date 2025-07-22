@@ -16,7 +16,6 @@ int main(int argc, char* argv[]) {
 
 	QApplication app(argc, argv);
 	monitors.push_back(GetStdoutFromCommand("xdpyinfo | awk \'/dimensions:/ { print $2 }\'"));
-	monitors.push_back("test");
 	ArcaPanel arca_panel(monitors);
 	arca_panel.show();
 	return app.exec();
