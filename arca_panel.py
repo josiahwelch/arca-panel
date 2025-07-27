@@ -67,10 +67,8 @@ class ArcaPanel(QWidget):
         except:
             k = key.name  # other keys
         print(k)
-        if k == 'alt':
+        if k == 'cmd':
             self.mat_button.pressed()
-        elif k == 'b':
-            print(self.mat_button.mat_menu.currentItem())
 
     def set_window_strut(self):
         dpy = display.Display()
