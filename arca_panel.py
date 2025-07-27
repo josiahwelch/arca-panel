@@ -1,3 +1,4 @@
+#!/bin/python3
 import datetime
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QToolBar, QHBoxLayout
