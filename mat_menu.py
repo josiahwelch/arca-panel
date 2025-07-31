@@ -11,12 +11,13 @@ from pynput import keyboard
 from desktop_parser import DesktopFile
 
 class MATMenu(QListWidget):
-    def __init__(self):
+    def __init__(self, user=None):
         super().__init__()
 
         # Initializes variables
         self.entries = []
         self.entries_exec = {}
+		self.user = user
 
         # Sets proper flags for the window
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -62,7 +63,7 @@ class MATMenu(QListWidget):
         self._update_menu()
 
     def item_clicked(self, item):
-        t = threading.Thread(target=misc_helper.run_command, args=(self.entries_exec[item.text()], ))
+        t = threading.Thread(target=misc_helper.run_command, args=(self.entries_exec[item.text()], self.user, ))
         # misc_helper.run_command(self.entries_exec[item.text()])
         t.start()
         self.clearSelection()
