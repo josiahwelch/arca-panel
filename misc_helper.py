@@ -30,4 +30,4 @@ def run_command(command, user=None):
 	if user is None:
 		subprocess.run(parse_command_string(command))
 	else:
-		subprocess.run(parse_command_string("su -c" + user + command))
+		subprocess.run(parse_command_string("su -c" + user + ' ' + command))

@@ -130,10 +130,15 @@ class ArcaPanel(QWidget):
         self.listener.join()  # remove if main thread is polling self.keys
         self.time_widget.stop()
 
-def __main__(argv):
+def __main__():
     app = QApplication(sys.argv)
     monitors = get_monitors()
     window = ArcaPanel(monitors)
+ 	
+	# Sets target user if specified
+    if len(sys.argv) > 1:
+        window.mat_button.mat_menu.user = sys.argv[1]
+
     # window.show()
     # listener = keyboard.Listener(on_press=window.key_handler)
     # listener.start()  # start to listen on a separate thread
@@ -141,10 +146,6 @@ def __main__(argv):
     app.exec()
     # listener.join()  # remove if main thread is polling self.keys
     window.stop()
-	
-	# Sets target user if specified
-    if len(argv) > 1:
-        window.mat_menu.user = argv[1]
 
 if __name__ == "__main__":
-    __main__(sys.argv)
+    __main__()
