@@ -27,7 +27,7 @@ def parse_command_string(command, percent_u=None):
     return parsed_array
 
 def run_command(command, user=None):
-	if user is not None:
+	if user is None:
 		subprocess.run(parse_command_string(command))
 	else:
 		subprocess.run(parse_command_string("su -c" + user + command))

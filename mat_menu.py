@@ -17,7 +17,7 @@ class MATMenu(QListWidget):
         # Initializes variables
         self.entries = []
         self.entries_exec = {}
-		self.user = user
+        self.user = user
 
         # Sets proper flags for the window
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
